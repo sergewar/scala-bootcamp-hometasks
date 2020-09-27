@@ -29,7 +29,7 @@ object Shape3D {
     def volume: Double
   }
 
-  sealed trait Movable[A >: Shape3D[A]] {
+  sealed trait Movable[A <: Shape3D[A]] {
     def move(dx: Double, dy: Double, dz: Double): A
   }
 
