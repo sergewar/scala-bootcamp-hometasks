@@ -1,11 +1,8 @@
 package com.sss.scalabootcamp.hometasks.task7
 
-import java.text.SimpleDateFormat
-import java.util.Date
+import java.time.LocalDate
 
 import cats.data.ValidatedNec
-
-import scala.util.Try
 
 object ErrorHandling {
   // Homework. Place the solution under `error_handling` package in your homework repository.
@@ -16,10 +13,11 @@ object ErrorHandling {
   object Homework {
 
     case class PaymentCard(
-                            name: String,
-                            cardNumber: String,
-                            expDate: Date,
-                            cvv: String)
+        name: String,
+        cardNumber: String,
+        expDate: String,
+        cvv: String
+    )
 
     sealed trait ValidationError
     object ValidationError {
@@ -46,26 +44,22 @@ object ErrorHandling {
         else CardNumbersError.invalidNec
       }
 
-      private def validateExpirationDate(date: String): AllErrorsOr[Date] = {
-        def validateIsDate: AllErrorsOr[Date] = {
-          Try(new SimpleDateFormat("dd.MM.yyyy").parse(date)).toOption match {
-            case Some(convertedDate) => convertedDate.validNec
-            case None =>
-              Try(
-                new SimpleDateFormat("dd/MM/yyyy").parse(date)
-              ).toOption match {
-                case Some(convertedDate) => convertedDate.validNec
-                case None                => DateFormatError.invalidNec
-              }
+      private def validateExpirationDate(date: String): AllErrorsOr[String] = {
+        val dateRegex = "(\\d{2})/(\\d{2})".r
+        date match {
+          case dateRegex(month, year) => {
+            val nowDate = LocalDate.now()
+            val yearNowString = nowDate.getYear.toString
+            val yearNowInt =
+              yearNowString.substring(yearNowString.length - 3).toInt
+            if (
+              year.toInt <= yearNowInt && month.toInt <= nowDate.getMonthValue
+            ) {
+              date.validNec
+            } else DateFormatError.invalidNec
           }
+          case _ => DateFormatError.invalidNec
         }
-
-        def validateIsNotExpired(date: Date): AllErrorsOr[Date] = {
-          if (date.before(new Date())) CreditCardExpiredError.invalidNec
-          else date.validNec
-        }
-
-        validateIsDate andThen validateIsNotExpired
       }
 
       private def validateSecurityCode(cvv: String): AllErrorsOr[String] = {
