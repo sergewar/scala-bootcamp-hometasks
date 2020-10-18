@@ -55,15 +55,19 @@ class HomeworkSpec extends AnyWordSpec with Matchers with EitherValues {
 
 object HomeworkSpec {
 
-  @JsonCodec final case class TeamTotals(assists  : String, full_timeout_remaining: String, plusMinus: String)
+  @JsonCodec final case class TeamTotals(
+    assists               : String,
+    full_timeout_remaining: String,
+    plusMinus             : String
+  )
 
   @JsonCodec final case class TeamBoxScore(totals: TeamTotals)
 
   @JsonCodec final case class GameStats(
-    hTeam: TeamBoxScore,
-    vTeam: TeamBoxScore,
-    timesTied: String,
-    leadChanges: String,
+    hTeam        : TeamBoxScore,
+    vTeam        : TeamBoxScore,
+    timesTied    : String,
+    leadChanges  : String,
     activePlayers: List[ActivePlayer]
   )
 
@@ -73,7 +77,7 @@ object HomeworkSpec {
   )
 
   @JsonCodec final case class BoxScore(
-    basicGameData: Game,
+    basicGameData  : Game,
     previousMatchup: PrevMatchup,
     stats          : Option[GameStats]
   )
@@ -81,96 +85,96 @@ object HomeworkSpec {
   @JsonCodec final case class JustScore(score: String)
 
   @JsonCodec final case class TeamStats(
-    teamId: String,
-    linescore: List[JustScore],
-    win      : String,
-    loss     : String,
-    seriesWin: String,
+    teamId    : String,
+    linescore : List[JustScore],
+    win       : String,
+    loss      : String,
+    seriesWin : String,
     seriesLoss: String,
     score     : String,
     triCode   : String
   )
 
   @JsonCodec final case class ActivePlayer(
-    personId: String,
-    firstName: String,
-    lastName : String,
-    jersey   : String,
-    teamId   : String,
-    isOnCourt: Boolean,
-    points   : String,
-    pos      : String,
+    personId     : String,
+    firstName    : String,
+    lastName     : String,
+    jersey       : String,
+    teamId       : String,
+    isOnCourt    : Boolean,
+    points       : String,
+    pos          : String,
     position_full: String,
-    player_code: String,
+    player_code  : String,
     min          : String,
-    fgm: String,
+    fgm          : String,
     fga          : String,
-    fgp: String,
+    fgp          : String,
     ftm          : String,
     fta          : String,
     ftp          : String,
     tpm          : String,
     tpa          : String,
     tpp          : String,
-    offReb: String,
+    offReb       : String,
     defReb       : String,
     totReb       : String,
     assists      : String,
     pFouls       : String,
     steals       : String,
     turnovers    : String,
-    blocks: String,
+    blocks       : String,
     plusMinus    : String,
-    dnp: String,
+    dnp          : String,
     sortKey      : SortKey,
   )
 
   @JsonCodec final case class SortKey(
-    name: Int,
-    pos: Int,
-    points: Int,
-    min: Int,
-    fgm: Int,
-    fga: Int,
-    fgp: Int,
-    ftm: Int,
-    fta: Int,
-    ftp: Int,
-    tpm: Int,
-    tpa: Int,
-    tpp: Int,
-    offReb: Int,
-    defReb: Int,
-    totReb: Int,
-    assists: Int,
-    pFouls : Int,
-    steals : Int,
+    name     : Int,
+    pos      : Int,
+    points   : Int,
+    min      : Int,
+    fgm      : Int,
+    fga      : Int,
+    fgp      : Int,
+    ftm      : Int,
+    fta      : Int,
+    ftp      : Int,
+    tpm      : Int,
+    tpa      : Int,
+    tpp      : Int,
+    offReb   : Int,
+    defReb   : Int,
+    totReb   : Int,
+    assists  : Int,
+    pFouls   : Int,
+    steals   : Int,
     turnovers: Int,
-    blocks: Int,
+    blocks   : Int,
     plusMinus: Int
   )
 
-  @JsonCodec final case class GameDuration(hours: String, minutes: String)
+  @JsonCodec final case class GameDuration(hours                                                                    : String, minutes: String)
 
   @JsonCodec final case class Arena(
-    city: String,
-    country: String,
+    city      : String,
+    country   : String,
     isDomestic: Boolean,
-    name: String,
-    stateAbbr: String
+    name      : String,
+    stateAbbr : String
   )
 
   @JsonCodec final case class Game(
-    arena: Arena,
-    attendance: String,
-    gameDuration: GameDuration,
-    gameId: String,
-    gameUrlCode: String,
-    hTeam: TeamStats,
+    arena         : Arena,
+    attendance    : String,
+    gameDuration  : GameDuration,
+    gameId        : String,
+    gameUrlCode   : String,
+    hTeam         : TeamStats,
     isBuzzerBeater: Boolean,
-    startTimeUTC: ZonedDateTime,
-    endTimeUTC: Option[ZonedDateTime],
-    vTeam: TeamStats
+    startTimeUTC  : ZonedDateTime,
+    endTimeUTC    : Option[ZonedDateTime],
+    vTeam         : TeamStats
   )
 
   @JsonCodec final case class Scoreboard(games: List[Game], numGames: Int)
