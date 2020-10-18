@@ -16,10 +16,10 @@ libraryDependencies ++= Seq(
   "io.circe" %% "circe-generic-extras" % circeVersion,
   "io.circe" %% "circe-optics" % circeVersion,
   "io.circe" %% "circe-parser" % circeVersion,
-  "io.chrisdavenport" %% "cats-scalacheck" % catsScalacheckVersion % Test,
+  "io.chrisdavenport" %% "cats-scalacheck" % catsScalacheckVersion,
   "org.scalactic" %% "scalactic" % "3.2.0",
-  "org.scalatest" %% "scalatest" % "3.2.0" % Test,
-  "org.scalatestplus" %% "scalatestplus-scalacheck" % "3.1.0.0-RC2" % Test,
+  "org.scalatest" %% "scalatest" % "3.2.0",
+  "org.scalatestplus" %% "scalatestplus-scalacheck" % "3.1.0.0-RC2",
   "org.scalaj" %% "scalaj-http" % "2.4.2",
 
 )
