@@ -7,12 +7,16 @@ import cats.instances.either._
 import cats.instances.list._
 import cats.syntax.traverse._
 import io.circe
+import io.circe.Decoder
 import io.circe.generic.JsonCodec
+import io.circe.generic.extras.{Configuration, ConfiguredJsonCodec, JsonKey}
 import io.circe.parser._
 import org.scalatest.EitherValues
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import scalaj.http.Http
+
+import scala.util.Try
 
 /**
  * HOMEWORK:
@@ -54,11 +58,15 @@ class HomeworkSpec extends AnyWordSpec with Matchers with EitherValues {
 
 
 object HomeworkSpec {
+  implicit val config: Configuration = Configuration.default
+  implicit val parseLocalDate: Decoder[LocalDate] = Decoder.decodeString.map(str =>
+    Try(LocalDate.parse(str, DateTimeFormatter.ofPattern("yyyyMMdd"))).toOption.get
+  )
 
-  @JsonCodec final case class TeamTotals(
-    assists               : String,
-    full_timeout_remaining: String,
-    plusMinus             : String
+  @ConfiguredJsonCodec final case class TeamTotals(
+    assists  : String,
+    @JsonKey("full_timeout_remaining") fullTimeoutRemaining: String,
+    plusMinus: String
   )
 
   @JsonCodec final case class TeamBoxScore(totals: TeamTotals)
@@ -72,7 +80,7 @@ object HomeworkSpec {
   )
 
   @JsonCodec final case class PrevMatchup(
-    gameDate: String,
+    gameDate: LocalDate,
     gameId  : String
   )
 
